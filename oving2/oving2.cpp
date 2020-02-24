@@ -14,7 +14,6 @@ private:
     list<function<void()>> tasks;
     mutex task_mutex;
     condition_variable cv;
-    atomic<bool> stopped{false};
     bool stopThread = false;
 
 public:
@@ -70,7 +69,6 @@ public:
     }
 };
 
-
 int o2_main() {
     cout << "TDAT2004 - Øving 2" << endl;
 
@@ -114,4 +112,3 @@ int o2_main() {
 
     return 0;
 }
-
