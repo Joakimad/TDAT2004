@@ -17,7 +17,7 @@ private:
     bool stopThread = false;
 
 public:
-    Workers(int thread_num) : thread_num(thread_num) {
+    explicit Workers(int thread_num) : thread_num(thread_num) {
         if (thread_num < 1)
             cerr << "Invalid number of threads" << endl;
     }
@@ -40,9 +40,9 @@ public:
                             tasks.pop_front();
                         }
                     }
-
                     if (task)
-                        task();
+                        task_timeout(25);
+                    task();
                 }
             });
         }
@@ -53,10 +53,11 @@ public:
         stopThread = true;
         cv.notify_all();
 
-        cout << "Joining threads..." << endl;
+    }
+
+    void join() {
         for (auto &thread : threads)
             thread.join();
-        cout << "Stopped and joined threads" << endl;
     }
 
     // Adds new task
@@ -66,6 +67,11 @@ public:
             tasks.emplace_back(task);
         }
         cv.notify_one();
+    }
+
+    // Task timeout
+    void task_timeout(int ms) {
+        this_thread::sleep_for(chrono::milliseconds(ms));
     }
 };
 
@@ -88,14 +94,12 @@ int o2_main() {
     worker_threads.post([] {
         cout << "Task B start" << endl;
         cout << "Task B end" << endl;
-
     });
 
     // Might run in parallel with task A and B
     event_loop.post([] {
         cout << "Task C start" << endl;
         cout << "Task C end" << endl;
-
     });
 
     // Will run after task C
@@ -103,12 +107,14 @@ int o2_main() {
     event_loop.post([] {
         cout << "Task D start" << endl;
         cout << "Task D end" << endl;
-
     });
 
     this_thread::sleep_for(5s);
     worker_threads.stop();
     event_loop.stop();
+
+    worker_threads.join();
+    event_loop.join();
 
     return 0;
 }
