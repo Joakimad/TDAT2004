@@ -1,6 +1,6 @@
 const express = require("express");
-const bodyParser = require('body-parser');
 const app = express();
+const bodyParser = require('body-parser');
 const {exec} = require("child_process");
 const cors = require("cors");
 const fs = require('fs');
@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({type: '*/*'}));
 app.use(cors());
 
-app.post('/run/node', (req, res) => {
+app.post('/', (req, res) => {
     console.log('Running code');
     let code = req.body.input;
     writeAndRunFile(code, res);

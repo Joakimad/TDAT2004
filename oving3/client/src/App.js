@@ -1,22 +1,21 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-python";
 
 function App() {
-
     const [output, setOutput] = useState([]);
 
     function runCode(code) {
-        return axios.post('http://localhost:9001/run/node', {input: code})
+        axios.post('http://localhost:9001/', {input: code})
             .then(res => setOutput(res.data))
-            .catch(rej => console.log(rej));
+            .catch(err => console.log(err));
     }
 
     return (
-        <div className="App">
-            <div className="wrapper">
-                <Input codeRunner={runCode}/>
-                {output.map(output => output)}
-            </div>
+        <div>
+            <Input codeRunner={runCode}/>
+            <Output text={output}/>
         </div>
     );
 }
@@ -34,12 +33,19 @@ function Input({codeRunner}) {
 
     return (
         <div>
-            <textarea
-                cols={280}
-                rows={5}
+            <AceEditor
+                focus={true}
                 onChange={value => onChangeHandler(value)}
             />
             <button className="btn margin-top-20" onClick={runCode}>Run code</button>
+        </div>
+    )
+}
+
+function Output({text}) {
+    return (
+        <div>
+            {text.map(output => output)}
         </div>
     )
 }
