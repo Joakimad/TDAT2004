@@ -16,10 +16,9 @@ app.post('/run/node', (req, res) => {
 
 function writeAndRunFile(code, res) {
     let codeResult = [];
-    console.log(code);
     fs.writeFileSync('./codeFromWebpage.js', code);
 
-    let script = exec("python codeFromWebpage.js", (error, stdout, stderr) => {
+    let script = exec("node codeFromWebpage.js", (error, stdout, stderr) => {
         if (error) {
             codeResult.push(error.message.toString());
             return;
@@ -37,6 +36,6 @@ function writeAndRunFile(code, res) {
     });
 }
 
-app.listen(4000, () => {
+app.listen(8080, () => {
     console.log('Server running on port 8080');
 });
