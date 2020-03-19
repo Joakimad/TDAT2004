@@ -37,7 +37,7 @@ function Input({codeRunner}) {
                 focus={true}
                 onChange={value => onChangeHandler(value)}
             />
-            <button className="btn margin-top-20" onClick={runCode}>Run code</button>
+            <button onClick={runCode}>Run code</button>
         </div>
     )
 }
