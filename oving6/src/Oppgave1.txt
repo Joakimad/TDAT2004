@@ -1,0 +1,6 @@
+Optimistisk låsing er en standard av Java Persistence
+
+Det bruke som en versjonskontroll hvor man sjekker versjonsnummeret til en entitet.
+Hvis man ser "låsen" har et høyere tall enn sist så har noen andre oppdatert noe i entiteten mens man har holdt på.
+
+Bruker @version tag
