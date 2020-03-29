@@ -1,0 +1,8 @@
+{
+  "name": "oving7",
+  "version": "1.0.0",
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "nodejs-base64": "^1.0.3"
+  }
+}
